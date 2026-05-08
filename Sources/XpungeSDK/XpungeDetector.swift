@@ -159,7 +159,11 @@ public class XpungeDetector {
         defer { try? FileManager.default.removeItem(at: tempDir) }
 
         let config = MLModelConfiguration()
-        config.computeUnits = .all
+        if #available(iOS 14.0, macOS 13.0, *) {
+            config.computeUnits = .cpuAndNeuralEngine
+        } else {
+            config.computeUnits = .cpuOnly
+        }
         let mlModel = try MLModel(contentsOf: tempDir, configuration: config)
         let vn = try VNCoreMLModel(for: mlModel)
         let req = VNCoreMLRequest(model: vn, completionHandler: nil)

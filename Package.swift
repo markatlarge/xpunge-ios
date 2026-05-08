@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "XpungeSDK",
-    platforms: [.iOS(.v14)],
+    platforms: [.iOS(.v14), .macOS(.v10_15)],
     products: [
         .library(name: "XpungeSDK", targets: ["XpungeSDK"]),
     ],
@@ -12,6 +12,12 @@ let package = Package(
             name: "XpungeSDK",
             path: "Sources/XpungeSDK",
             resources: [.process("Resources")]
+        ),
+        .executableTarget(
+            name: "XpungeExample",
+            dependencies: ["XpungeSDK"],
+            path: "Example",
+            resources: [.copy("test.jpg")]
         ),
     ]
 )
